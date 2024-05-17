@@ -8,7 +8,7 @@ import logging
 import os
 import re
 from typing import List
-from mysql.connector import connection
+from mysql.connector import connection, Error as MySQLConnectionError
 
 PII_FIELDS = ("name", "email", "phone", "ssn", "password")
 
@@ -85,7 +85,7 @@ def get_logger() -> logging.Logger:
     return user_data_logger
 
 
-def get_db() -> mysql.connector.connection.MySQLConnection:
+def get_db() -> connection.MySQLConnection:
     """
     Returns a connection to the personal data database.
     """
@@ -100,7 +100,7 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
             user=db_username,
             password=db_password)
         return conn
-    except mysql.connector.Error as err:
+    except MySQLConnectionError as err:
         print(f"Error: {err}.")
         return None
 

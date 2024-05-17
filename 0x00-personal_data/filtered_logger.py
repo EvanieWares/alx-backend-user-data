@@ -93,12 +93,16 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
     db_username = os.environ.get('PERSONAL_DATA_DB_USERNAME', "root")
     db_host = os.environ.get('PERSONAL_DATA_DB_HOST', 'localhost')
     db_name = os.environ.get('PERSONAL_DATA_DB_NAME')
-    conn = mysql.connector.connect(
-        host=db_host,
-        database=db_name,
-        user=db_username,
-        password=db_password)
-    return conn
+    try:
+        conn = mysql.connector.connect(
+            host=db_host,
+            database=db_name,
+            user=db_username,
+            password=db_password)
+        return conn
+    except mysql.connector.Error as err:
+        print(f"Error: {err}.")
+        return None
 
 
 def main() -> None:

@@ -1,12 +1,20 @@
 #!/usr/bin/env python3
-""" Main 4
+""" Cookie server
 """
-from api.v1.auth.basic_auth import BasicAuth
+from flask import Flask, request
+from api.v1.auth.auth import Auth
 
-a = BasicAuth()
+auth = Auth()
 
-print(a.extract_user_credentials(None))
-print(a.extract_user_credentials(89))
-print(a.extract_user_credentials("Holberton School"))
-print(a.extract_user_credentials("Holberton:School"))
-print(a.extract_user_credentials("bob@gmail.com:toto1234"))
+app = Flask(__name__)
+
+
+@app.route('/', methods=['GET'], strict_slashes=False)
+def root_path():
+    """ Root path
+    """
+    return "Cookie value: {}\n".format(auth.session_cookie(request))
+
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port="5000")

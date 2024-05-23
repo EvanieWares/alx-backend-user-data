@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-"""
-Route module for the API
-"""
-
-
+"""Route module for the API."""
 import os
 from os import getenv
 from typing import Tuple
@@ -39,8 +35,7 @@ else:
 
 @app.errorhandler(404)
 def not_found(error) -> str:
-    """ Not found handler
-    """
+    """Not found handler."""
     return jsonify({"error": "Not found"}), 404
 
 
@@ -58,9 +53,7 @@ def forbidden(error: Exception) -> Tuple[jsonify, int]:
 
 @app.before_request
 def handle_request():
-    """
-    Handle the request by checking for authentication and authorization.
-    """
+    """Handle the request by checking for authentication and authorization."""
     if auth is None:
         return
     excluded_paths = ['/api/v1/status/',
